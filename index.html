@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IT Tutorials Hub</title>
+
+<style>
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:Segoe UI, Arial, sans-serif;
+}
+
+body{
+  background:#0f0f0f;
+  color:#fff;
+}
+
+header{
+  padding:15px 20px;
+  background:#111;
+  border-bottom:1px solid #222;
+}
+
+header h1{
+  font-size:22px;
+  color:#00ff88;
+  margin-bottom:10px;
+}
+
+.search-wrapper{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+}
+
+input, select{
+  padding:8px 12px;
+  border-radius:6px;
+  border:none;
+  background:#222;
+  color:#fff;
+  flex:1;
+  min-width:150px;
+}
+
+main{
+  padding:20px;
+  display:grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px,1fr));
+  gap:20px;
+}
+
+.card{
+  background:#1a1a1a;
+  border-radius:10px;
+  overflow:hidden;
+  transition:0.2s ease;
+  text-decoration:none;
+  color:white;
+}
+
+.card:hover{
+  transform:translateY(-4px);
+}
+
+.thumbnail{
+  width:100%;
+  aspect-ratio:16/9;
+  object-fit:cover;
+}
+
+.card-content{
+  padding:12px;
+}
+
+.card h3{
+  font-size:15px;
+  margin-bottom:6px;
+}
+
+.meta{
+  font-size:13px;
+  color:#aaa;
+  margin-bottom:6px;
+}
+
+.desc{
+  font-size:13px;
+  color:#ccc;
+  line-height:1.4;
+}
+
+/* Mobile tweak */
+@media(max-width:500px){
+  header h1{
+    font-size:18px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <h1>IT Tutorials Hub</h1>
+  <div class="search-wrapper">
+    <input type="text" id="search" placeholder="Search tutorials...">
+    <select id="category">
+      <option value="all">All Categories</option>
+      <option value="web">Web Dev</option>
+      <option value="security">Cyber Security</option>
+      <option value="ai">AI</option>
+      <option value="linux">Linux</option>
+    </select>
+  </div>
+</header>
+
+<main id="videoContainer"></main>
+
+<script>
+const tutorials = [
+  {
+    id:"0zb2kohYZIM",
+    title:"Build a Full Stack App with FastAPI & React",
+    channel:"Dev Mastery",
+    views:"82K views • 2 weeks ago",
+    category:"web",
+    desc:"Complete full stack project with authentication and deployment."
+  },
+  {
+    id:"lfUWwZqzHmA",
+    title:"Arch Linux Installation & Hyprland Setup",
+    channel:"Linux Core",
+    views:"61K views • 1 month ago",
+    category:"linux",
+    desc:"Minimal Arch install with window manager configuration."
+  },
+  {
+    id:"fNzpcB7ODxQ",
+    title:"Ethical Hacking Beginner Roadmap",
+    channel:"Cyber Elite",
+    views:"110K views • 3 weeks ago",
+    category:"security",
+    desc:"Start your penetration testing journey the right way."
+  },
+  {
+    id:"qfWpPEgea2A",
+    title:"Google Gemini API with Python",
+    channel:"AI Forge",
+    views:"39K views • 5 days ago",
+    category:"ai",
+    desc:"Integrate AI into your apps using Gemini API."
+  }
+];
+
+const container = document.getElementById("videoContainer");
+const searchInput = document.getElementById("search");
+const categorySelect = document.getElementById("category");
+
+function renderVideos(){
+  container.innerHTML="";
+  const searchValue = searchInput.value.toLowerCase();
+  const selectedCategory = categorySelect.value;
+
+  tutorials.forEach(video=>{
+    if(
+      (selectedCategory==="all" || video.category===selectedCategory) &&
+      video.title.toLowerCase().includes(searchValue)
+    ){
+      const link = document.createElement("a");
+      link.classList.add("card");
+      link.href = `https://www.youtube.com/watch?v=${video.id}`;
+      link.target = "_blank";
+
+      link.innerHTML = `
+        <img class="thumbnail" 
+             src="https://img.youtube.com/vi/${video.id}/hqdefault.jpg" 
+             alt="${video.title}">
+        <div class="card-content">
+          <h3>${video.title}</h3>
+          <div class="meta">${video.channel} • ${video.views}</div>
+          <div class="desc">${video.desc}</div>
+        </div>
+      `;
+
+      container.appendChild(link);
+    }
+  });
+}
+
+searchInput.addEventListener("input", renderVideos);
+categorySelect.addEventListener("change", renderVideos);
+
+renderVideos();
+</script>
+
+</body>
+</html>
